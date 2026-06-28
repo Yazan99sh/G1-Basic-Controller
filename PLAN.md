@@ -39,10 +39,14 @@ the Unitree phone app uses**, over Wi-Fi.
       Confirmed: legacy firmware (< 1.5.1) → **no AES key needed**.
 
 ### Phase 2 — Command vocabulary  (robot in a SAFE, clear / supported state)
-- [ ] Dump `RTC_TOPIC` + `SPORT_CMD` from the installed lib; read `examples/g1/`; confirm
-      exact `api_id`s + parameter shapes for `Move`/`StopMove`/arm actions on **G1**.
-- [ ] Test `set_mode` (verified: api_id 7101 → walk / walk_waist / run), then a small
-      **guarded** `move` + `stop` with `ALLOW_MOVEMENT=true`.
+- [x] Dumped `RTC_TOPIC`/`SPORT_CMD` + read the full G1 example → **command set locked**:
+      - arm: `rt/api/arm/request` api_id 7106 {"data": id} (25 face-wave … 99 release)
+      - mode: `rt/api/sport/request` api_id 7101 {"data": 500/501/801}
+      - **move = joystick emulation** via `rt/wirelesscontroller` {lx,ly,rx,ry,keys} (not SPORT_CMD)
+      `commands.py` rewritten to match; `STICK_LIMIT`/`DRIVE_HZ`/`MAX_DRIVE_SECONDS` added.
+- [ ] **2a (no motion):** `python tools/read_state.py` → telemetry prints (two-way data proven).
+- [ ] **2b (gentle, gated):** `ALLOW_MOVEMENT=true` → `python tools/test_arm.py` (arm wave only).
+- [ ] **2c (locomotion, gated, supported):** `ctrl.drive(...)` small turn/step, estop ready.
 
 ### Phase 3 — Unified API (one robot)
 - [ ] FastAPI/WS service wrapping `G1Controller`, mirroring the Go2-Edu

@@ -44,11 +44,13 @@ class Settings:
     # fetch once:  unitree-fetch-aes-key --email .. --sn .. --device-type G1
     UNITREE_AES_128_KEY: str = os.environ.get("UNITREE_AES_128_KEY", "")
 
-    # --- safety: motion is refused unless explicitly enabled (this is a humanoid) ---
+    # --- safety: active commands refused unless explicitly enabled (this is a humanoid) ---
     ALLOW_MOVEMENT: bool = _bool("ALLOW_MOVEMENT", False)
-    MAX_VX: float = _float("MAX_VX", 0.3)     # m/s
-    MAX_VY: float = _float("MAX_VY", 0.2)     # m/s
-    MAX_VYAW: float = _float("MAX_VYAW", 0.5)  # rad/s
+    # G1 locomotion is driven by EMULATING the joystick (rt/wirelesscontroller), so limits
+    # are stick deflections in [-1, 1] (NOT m/s). Keep small for first tests.
+    STICK_LIMIT: float = _float("STICK_LIMIT", 0.3)            # max |lx/ly/rx| we'll send
+    DRIVE_HZ: float = _float("DRIVE_HZ", 10.0)                 # resend rate for a sustained drive
+    MAX_DRIVE_SECONDS: float = _float("MAX_DRIVE_SECONDS", 3.0)  # hard cap on one drive burst
 
 
 settings = Settings()

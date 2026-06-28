@@ -60,6 +60,20 @@ await conn.datachannel.pub_sub.publish_request_new(
 AES key (fw ≥1.5.1): `aes_128_key="…"` constructor kwarg or `UNITREE_AES_128_KEY` env;
 fetch with `unitree-fetch-aes-key --email … --sn … --device-type G1`.
 
+## Verified G1 command vocabulary (from the lib's full G1 example)
+- **Arm action:** `publish_request_new("rt/api/arm/request", {"api_id": 7106, "parameter": {"data": <id>}})`
+  - ids: 27 handshake, 18 high-five, 19 hug, 26 high-wave, 17 clap, 25 face-wave, 12 left-kiss,
+    20 arm-heart, 21 right-heart, 15 hands-up, 24 X-ray, 23 right-hand-up, 22 reject, **99 release** (return arms).
+- **Mode switch:** `publish_request_new("rt/api/sport/request", {"api_id": 7101, "parameter": {"data": <mode>}})`
+  - modes: 500 Walk, 501 Walk (control waist), 801 Run.
+- **Move (locomotion):** `publish_without_callback("rt/wirelesscontroller", {"lx","ly","rx","ry","keys"})`
+  — **joystick emulation**, axes in [-1, 1]. Verified: `rx=1.0` turns; all-zero = stop. forward→ly,
+  strafe→lx, turn→rx (polarity to confirm with a gentle supported test). This is the data-channel
+  form of "use the controller's commands" — NOT the Go2 `SPORT_CMD["Move"]` path.
+- Useful state topics to subscribe: `rt/lf/sportmodestate`, `rt/lf/lowstate`, `rt/multiplestate`.
+- pub/sub methods: `subscribe(topic, callback)`, `publish_request_new(topic, options)` (awaited),
+  `publish_without_callback(topic, data)` (fire-and-forget, NOT awaited).
+
 ## Sources
 - https://github.com/legion1581/unitree_webrtc_connect (driver — G1 + Go2)
 - https://github.com/legion1581/go2_python_sdk (DDS path / Edu-only note)
