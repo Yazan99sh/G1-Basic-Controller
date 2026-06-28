@@ -44,9 +44,12 @@ the Unitree phone app uses**, over Wi-Fi.
       - mode: `rt/api/sport/request` api_id 7101 {"data": 500/501/801}
       - **move = joystick emulation** via `rt/wirelesscontroller` {lx,ly,rx,ry,keys} (not SPORT_CMD)
       `commands.py` rewritten to match; `STICK_LIMIT`/`DRIVE_HZ`/`MAX_DRIVE_SECONDS` added.
-- [ ] **2a (no motion):** `python tools/read_state.py` → telemetry prints (two-way data proven).
-- [ ] **2b (gentle, gated):** `ALLOW_MOVEMENT=true` → `python tools/test_arm.py` (arm wave only).
-- [ ] **2c (locomotion, gated, supported):** `ctrl.drive(...)` small turn/step, estop ready.
+- [x] **2a (no motion) ✅ 2026-06-28:** `tools/read_state.py` → telemetry flowing (sportmodestate
+      120 msgs, lowstate 8: IMU + 35 motors + ~52V battery). Two-way data proven.
+- [x] **2b (arm, gated) ✅ 2026-06-28:** `tools/test_arm.py face_wave` → `rt/api/arm/response`
+      **status code 0** (accepted) + release code 0. Command path proven.
+- [ ] **2c (locomotion, gated, supported):** `tools/test_drive.py mode` (stand) → `turn`/`forward`,
+      robot on the ground in a clear area, estop ready.
 
 ### Phase 3 — Unified API (one robot)
 - [ ] FastAPI/WS service wrapping `G1Controller`, mirroring the Go2-Edu
