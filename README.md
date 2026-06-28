@@ -44,6 +44,18 @@ Success looks like: `✅ WebRTC channel OPEN to the robot.`
 - `tools/connect_test.py` — Phase 1 connect proof
 - `server/app.py` — (Phase 3) unified REST/WS API — not built yet
 
+## Troubleshooting
+- **`RobotBusyError: Robot is connected by another WebRTC client`** — this means the
+  connection path WORKS; the robot just allows **one client at a time**. Fully close the
+  Unitree phone app's session to this robot (and any other client), wait ~10–20 s for a
+  stale session to time out, then re-run.
+- **`pip install` fails building pyaudio (`gcc: No such file or directory`)** — the host
+  has no C compiler. Use `conda install -y -c conda-forge pyaudio` (no compiler) or
+  `sudo apt install -y build-essential portaudio19-dev`, then re-run the pip install.
+- **`LAN Signaling Method: legacy /offer`** + connects without an AES error → your firmware
+  is the legacy kind (G1 < 1.5.1), so `UNITREE_AES_128_KEY` is not needed.
+
 ## Status
-Scaffolded with the connection/command API verified against the library's own G1 example.
-Next: run Phase 0/1 on the host against a real G1 Basic.
+Connection path **verified on hardware** (host reached a real G1 Basic over WebRTC; only
+the one-client lock remained). Connection/command API verified against the library's own
+G1 example. Next: free the client slot for the Phase 1 "channel OPEN", then Phase 2.
