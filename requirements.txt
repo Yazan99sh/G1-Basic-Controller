@@ -1,0 +1,10 @@
+# WebRTC driver for locked consumer Unitree robots (G1 + Go2) — the app's own protocol.
+# Needs a system audio dev pkg first:  sudo apt install -y portaudio19-dev
+unitree_webrtc_connect
+
+# Optional: load a local .env automatically.
+python-dotenv
+
+# Phase 3 (unified REST/WS API) — uncomment when building server/app.py
+# fastapi
+# uvicorn[standard]
