@@ -1,5 +1,8 @@
 # WebRTC driver for locked consumer Unitree robots (G1 + Go2) — the app's own protocol.
-# Needs a system audio dev pkg first:  sudo apt install -y portaudio19-dev
+# It pulls in pyaudio (a C extension), so install pyaudio's prereqs FIRST — one of:
+#   conda (recommended, no compiler/sudo):  conda install -y -c conda-forge pyaudio
+#   apt (build from source):                sudo apt install -y build-essential portaudio19-dev
+# ...then:  pip install unitree_webrtc_connect
 unitree_webrtc_connect
 
 # Optional: load a local .env automatically.

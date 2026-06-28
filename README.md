@@ -12,8 +12,9 @@ See **`PLAN.md`** for the roadmap and **`docs/FINDINGS.md`** for the sourced res
 On a host on the **same Wi-Fi as the robot** (e.g. `altkamul2-g1`, conda env `tv`):
 
 ```bash
-# 1. install the driver
-sudo apt install -y portaudio19-dev
+# 1. install the driver (it needs pyaudio, a C extension — satisfy it first)
+conda install -y -c conda-forge pyaudio        # recommended: prebuilt, no compiler/sudo
+#   ...or, without conda:  sudo apt install -y build-essential portaudio19-dev
 pip install unitree_webrtc_connect
 
 # 2. configure
