@@ -33,9 +33,10 @@ the Unitree phone app uses**, over Wi-Fi.
 - [ ] `pip install unitree_webrtc_connect` (+ `sudo apt install portaudio19-dev`).
 - [ ] If fw ≥ 1.5.1: `unitree-fetch-aes-key …` → set `UNITREE_AES_128_KEY` in `.env`.
 
-### Phase 1 — First contact (NO movement)  ← first "make it work"
-- [ ] `python tools/connect_test.py` → **"WebRTC channel OPEN"**. This alone proves the
-      locked unit is drivable over the app's protocol. No command is sent.
+### Phase 1 — First contact (NO movement)  ✅ DONE (2026-06-28)
+- [x] `python tools/connect_test.py` → **"WebRTC channel OPEN"** on a real G1 Basic at
+      192.168.0.56. Data-channel validation OK, heartbeats + audio/video tracks received.
+      Confirmed: legacy firmware (< 1.5.1) → **no AES key needed**.
 
 ### Phase 2 — Command vocabulary  (robot in a SAFE, clear / supported state)
 - [ ] Dump `RTC_TOPIC` + `SPORT_CMD` from the installed lib; read `examples/g1/`; confirm
@@ -76,8 +77,8 @@ server/app.py                 (Phase 3) unified REST/WS API — not yet built
 
 ## Status
 - [x] Scaffold + verified connection/command API wired (from the lib's own G1 example)
-- [ ] Phase 0 prereqs on host
-- [ ] Phase 1 connect proof on a real G1 Basic
-- [ ] Phase 2 command vocabulary
+- [x] Phase 0 prereqs on host (driver installed; robot on LAN at 192.168.0.56)
+- [x] Phase 1 connect proof on a real G1 Basic — **WebRTC channel OPEN** ✅
+- [ ] Phase 2 command vocabulary (run tools/dump_api.py → reconcile commands.py → gated test)
 - [ ] Phase 3 unified API
 - [ ] Phase 4 fleet
